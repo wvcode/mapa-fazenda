@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>O Mistério da Fazenda - Mapa Interativo</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+
+    <style>
+        #map {
+            height: 65vh;
+            width: 100%;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            margin: 0;
+            padding: 0;
+        }
+
+        #controls {
+            padding: 10px;
+            background-color: #f0f0f0;
+            text-align: center;
+            position: relative;
+        }
+
+        #logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            height: 60px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #6236FF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #5028d7;
+        }
+
+        #formulario {
+            padding: 15px;
+            background-color: #f3f0fa;
+            color: #2a1f5a;
+        }
+
+        input,
+        textarea {
+            display: block;
+            margin: 10px auto;
+            width: 90%;
+            max-width: 500px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        h3 {
+            text-align: center;
+            color: #2a1f5a;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="controls">
+        <img id="logo" src="https://pdi.atitus.edu.br/wp-content/uploads/2022/11/logo_bl_p.png" alt="Logo Atitus">
+        <h2>O Mistério da Fazenda - Investigação Interativa</h2>
+        <button onclick="location.reload()">Reiniciar Mapa</button>
+    </div>
+
+    <div id="formulario">
+        <h3>Adicionar novo ponto no mapa</h3>
+        <input type="text" id="novoNome" placeholder="Nome do ponto">
+        <input type="text" id="novaLat" placeholder="Latitude (ex: -27.009)">
+        <input type="text" id="novaLng" placeholder="Longitude (ex: -51.005)">
+        <textarea id="novaMensagem" placeholder="Mensagem descritiva do ponto"></textarea>
+        <button onclick="adicionarPonto()">Adicionar ponto</button>
+        <pre id="saidaVariavel"></pre>
+    </div>
+
+    <div id="map"></div>
+
+    <script>
+        var map = L.map('map').setView([-27.0, -51.0], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        var redIcon = new L.Icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+            shadowUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+
+        var limiteFazenda = L.polygon([
+            [-27.008, -51.008],
+            [-27.008, -50.998],
+            [-26.992, -50.998],
+            [-26.992, -51.008]
+        ], {
+            color: 'green',
+            fillColor: '#c1f0c1',
+            fillOpacity: 0.2
+        }).addTo(map);
+
+        limiteFazenda.bindPopup("Limite da Fazenda Monte Verde");
+
+        var pontos = [
+            { nome: "Sensor de Temperatura - Estufa", lat: -27.001, lng: -51.002, mensagem: "Alerta! Temperatura acima de 38ºC." },
+            { nome: "Celeiro Principal", lat: -27.003, lng: -51.005, mensagem: "Câmera offline desde 03h." },
+            { nome: "Galpão de Racoes", lat: -27.002, lng: -51.007, mensagem: "Tudo normal." },
+            { nome: "Área dos Animais", lat: -27.004, lng: -51.003, mensagem: "Animal com comportamento estranho." },
+            { nome: "Sensor de Umidade", lat: -27.005, lng: -51.006, mensagem: "Falha no envio de dados." },
+            { nome: "Trator Inteligente", lat: -27.006, lng: -51.004, mensagem: "GPS descalibrado. Revisão necessária." },
+            { nome: "Estufa 2", lat: -27.007, lng: -51.002, mensagem: "Ventoinha desligada manualmente." },
+            { nome: "Barracão de Manutenção", lat: -27.003, lng: -51.001, mensagem: "Funcionário relatou movimentação suspeita." },
+            { nome: "Sistema Solar", lat: -27.001, lng: -51.004, mensagem: "Energia reduzida. Painel sujo?" },
+            { nome: "Caixa d'água", lat: -27.002, lng: -51.006, mensagem: "Nível abaixo do esperado." },
+            { nome: "Depósito de Ferramentas", lat: -27.008, lng: -51.004, mensagem: "Inventário de ferramentas incompleto." },
+            { nome: "Estacionamento de Veículos", lat: -27.008, lng: -51.006, mensagem: "Caminhonete fora da posição habitual." }
+        ];
+
+        pontos.forEach(function (ponto) {
+            L.marker([ponto.lat, ponto.lng])
+                .addTo(map)
+                .bindPopup(`<b>${ponto.nome}</b><br>${ponto.mensagem}`);
+        });
+
+        function adicionarPonto() {
+            const nome = document.getElementById("novoNome").value;
+            const lat = parseFloat(document.getElementById("novaLat").value);
+            const lng = parseFloat(document.getElementById("novaLng").value);
+            const mensagem = document.getElementById("novaMensagem").value;
+
+            if (!nome || isNaN(lat) || isNaN(lng) || !mensagem) {
+                alert("Preencha todos os campos corretamente.");
+                return;
+            }
+
+            const ponto = L.latLng(lat, lng);
+            if (!limiteFazenda.getBounds().contains(ponto)) {
+                alert("Este ponto está fora dos limites da Fazenda Monte Verde. Por favor, escolha uma coordenada dentro da área cercada.");
+                return;
+            }
+
+            L.marker([lat, lng], { icon: redIcon })
+                .addTo(map)
+                .bindPopup(`<b>${nome}</b><br>${mensagem}`);
+
+            const variavel = `{
+    nome: "${nome}",
+    lat: ${lat},
+    lng: ${lng},
+    mensagem: "${mensagem}"
+}`;
+            document.getElementById("saidaVariavel").textContent = variavel;
+        }
+    </script>
+</body>
+
+</html>
