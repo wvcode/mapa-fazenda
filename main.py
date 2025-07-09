@@ -16,7 +16,7 @@ app.add_middleware(
 )
 
 # Servir arquivos estáticos (imagens, CSS se quiser externo)
-app.mount("/img", StaticFiles(directory="img"), name="img")
+# app.mount("/img", StaticFiles(directory="img"), name="img")
 
 
 # Servir o index.html
