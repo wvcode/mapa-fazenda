@@ -2,437 +2,437 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>O Mistério da Fazenda - Mapa Interativo (V3 com 4 telas)</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
-    <style>
-        :root {
-            --roxo: #6236FF;
-            --roxo-dark: #5028d7;
-            --bg: #f7f7fb;
-            --ink: #2a1f5a;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>O Mistério da Fazenda - Mapa Interativo (V3 com 4 telas)</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+  <style>
+    :root {
+      --roxo: #6236FF;
+      --roxo-dark: #5028d7;
+      --bg: #f7f7fb;
+      --ink: #2a1f5a;
+    }
 
-        * {
-            box-sizing: border-box;
-        }
+    * {
+      box-sizing: border-box;
+    }
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            color: #222;
-            background: #fff;
-        }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #222;
+      background: #fff;
+    }
 
-        #map {
-            height: 60vh;
-            width: 100%;
-        }
+    #map {
+      height: 60vh;
+      width: 100%;
+    }
 
-        header {
-            padding: 12px 16px;
-            background: #f0f0f0;
-            position: relative;
-        }
+    header {
+      padding: 12px 16px;
+      background: #f0f0f0;
+      position: relative;
+    }
 
-        header h2 {
-            margin: 0;
-            text-align: center;
-        }
+    header h2 {
+      margin: 0;
+      text-align: center;
+    }
 
-        #logo {
-            position: absolute;
-            top: 8px;
-            left: 12px;
-            height: 60px;
-        }
+    #logo {
+      position: absolute;
+      top: 8px;
+      left: 12px;
+      height: 60px;
+    }
 
-        .btn {
-            padding: 10px 16px;
-            font-size: 16px;
-            background: var(--roxo);
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
+    .btn {
+      padding: 10px 16px;
+      font-size: 16px;
+      background: var(--roxo);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
 
-        .btn:hover {
-            background: var(--roxo-dark);
-        }
+    .btn:hover {
+      background: var(--roxo-dark);
+    }
 
-        .wrap {
-            padding: 12px 16px;
-            background: var(--bg);
-            color: var(--ink);
-        }
+    .wrap {
+      padding: 12px 16px;
+      background: var(--bg);
+      color: var(--ink);
+    }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 16px;
-        }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
 
-        fieldset {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 12px;
-            background: #fff;
-        }
+    fieldset {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 12px;
+      background: #fff;
+    }
 
-        legend {
-            padding: 0 6px;
-            font-weight: bold;
-            color: #333;
-        }
+    legend {
+      padding: 0 6px;
+      font-weight: bold;
+      color: #333;
+    }
 
-        label {
-            display: block;
-            font-size: 14px;
-            margin-top: 8px;
-        }
+    label {
+      display: block;
+      font-size: 14px;
+      margin-top: 8px;
+    }
 
-        input,
-        select,
-        textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 15px;
-        }
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+    }
 
-        textarea {
-            min-height: 72px;
-        }
+    textarea {
+      min-height: 72px;
+    }
 
-        .row {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
 
-        .legend {
-            display: flex;
-            gap: 14px;
-            align-items: center;
-            font-size: 14px;
-        }
+    .legend {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      font-size: 14px;
+    }
 
-        .dot {
-            width: 12px;
-            height: 20px;
-            background: #ccc;
-            border-radius: 2px;
-            display: inline-block;
-            background-size: cover;
-            background-position: center;
-        }
+    .dot {
+      width: 12px;
+      height: 20px;
+      background: #ccc;
+      border-radius: 2px;
+      display: inline-block;
+      background-size: cover;
+      background-position: center;
+    }
 
-        .pill {
-            padding: 6px 10px;
-            border: 1px solid #ddd;
-            border-radius: 999px;
-            background: #fff;
-        }
+    .pill {
+      padding: 6px 10px;
+      border: 1px solid #ddd;
+      border-radius: 999px;
+      background: #fff;
+    }
 
-        .filters {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
 
-        #saidaVariavel {
-            white-space: pre;
-            background: #111;
-            color: #9ef59e;
-            padding: 10px;
-            border-radius: 6px;
-            overflow: auto;
-            max-height: 120px;
-        }
+    #saidaVariavel {
+      white-space: pre;
+      background: #111;
+      color: #9ef59e;
+      padding: 10px;
+      border-radius: 6px;
+      overflow: auto;
+      max-height: 120px;
+    }
 
-        /* Telas */
-        .screen {
-            display: none
-        }
+    /* Telas */
+    .screen {
+      display: none
+    }
 
-        .screen.active {
-            display: block
-        }
-    </style>
+    .screen.active {
+      display: block
+    }
+  </style>
 </head>
 
 <body>
-    <header>
-        <img id="logo" src="https://pdi.atitus.edu.br/wp-content/uploads/2022/11/logo_bl_p.png" alt="Logo Atitus" />
-        <h2>O Mistério da Fazenda - Investigação Interativa</h2>
-        <div style="text-align:center; margin-top:8px;">
-            <button class="btn" onclick="location.reload()">Reiniciar Mapa</button>
-        </div>
-        <div style="text-align:center; margin-top:8px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
-            <button class="btn" onclick="showScreen('inicial')">Tela 1 – Mapa</button>
-            <button class="btn" onclick="showScreen('coordenadas')">Tela 2 – Coordenadas</button>
-            <button class="btn" onclick="showScreen('tech')">Tela 3 – Tecnologias</button>
-            <button class="btn" onclick="showScreen('relatorioTela')">Tela 4 – Relatório</button>
-        </div>
-    </header>
+  <header>
+    <img id="logo" src="https://pdi.atitus.edu.br/wp-content/uploads/2022/11/logo_bl_p.png" alt="Logo Atitus" />
+    <h2>O Mistério da Fazenda - Investigação Interativa</h2>
+    <div style="text-align:center; margin-top:8px;">
+      <button class="btn" onclick="location.reload()">Reiniciar Mapa</button>
+    </div>
+    <div style="text-align:center; margin-top:8px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
+      <button class="btn" onclick="showScreen('inicial')">Tela 1 – Mapa</button>
+      <button class="btn" onclick="showScreen('coordenadas')">Tela 2 – Coordenadas</button>
+      <button class="btn" onclick="showScreen('tech')">Tela 3 – Tecnologias</button>
+      <button class="btn" onclick="showScreen('relatorioTela')">Tela 4 – Relatório</button>
+    </div>
+  </header>
 
-    <!-- TELA 1: MAPA (igual à versão funcional, com cores, filtros e conexões) -->
-    <section id="inicial" class="screen active">
-        <section class="wrap">
-            <div class="grid">
-                <fieldset>
-                    <legend>Adicionar ponto</legend>
-                    <label>Nome do ponto
-                        <input id="novoNome" placeholder="Ex.: Sensor de Temperatura - Estufa" />
-                    </label>
-                    <div class="row">
-                        <div style="flex:1">
-                            <label>Latitude
-                                <input id="novaLat" placeholder="Ex.: -27.009" />
-                            </label>
-                        </div>
-                        <div style="flex:1">
-                            <label>Longitude
-                                <input id="novaLng" placeholder="Ex.: -51.005" />
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div style="flex:1">
-                            <label>Categoria
-                                <select id="novaCategoria">
-                                    <option value="alerta">Risco alto (Alerta)</option>
-                                    <option value="atencao">Atenção</option>
-                                    <option value="normal">Normal</option>
-                                </select>
-                            </label>
-                        </div>
-                        <div style="flex:1">
-                            <label>Horário do evento
-                                <input id="novoHorario" type="time" />
-                            </label>
-                        </div>
-                    </div>
-                    <label>Descrição / Observação
-                        <textarea id="novaMensagem" placeholder="O que foi percebido aqui?"></textarea>
-                    </label>
-                    <div class="row">
-                        <div style="flex:1">
-                            <label>Hipótese
-                                <textarea id="novaHipotese" placeholder="O que pode ter causado isso?"></textarea>
-                            </label>
-                        </div>
-                        <div style="flex:1">
-                            <label>Solução proposta
-                                <textarea id="novaSolucao" placeholder="O que fazer para resolver?"></textarea>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-top:10px;">
-                        <button class="btn" onclick="adicionarPonto()">Adicionar ponto</button>
-                    </div>
-                    <div style="margin-top:10px;">
+  <!-- TELA 1: MAPA (igual à versão funcional, com cores, filtros e conexões) -->
+  <section id="inicial" class="screen active">
+    <section class="wrap">
+      <div class="grid">
+        <fieldset>
+          <legend>Adicionar ponto</legend>
+          <label>Nome do ponto
+            <input id="novoNome" placeholder="Ex.: Sensor de Temperatura - Estufa" />
+          </label>
+          <div class="row">
+            <div style="flex:1">
+              <label>Latitude
+                <input id="novaLat" placeholder="Ex.: -27.009" />
+              </label>
+            </div>
+            <div style="flex:1">
+              <label>Longitude
+                <input id="novaLng" placeholder="Ex.: -51.005" />
+              </label>
+            </div>
+          </div>
+          <div class="row">
+            <div style="flex:1">
+              <label>Categoria
+                <select id="novaCategoria">
+                  <option value="alerta">Risco alto (Alerta)</option>
+                  <option value="atencao">Atenção</option>
+                  <option value="normal">Normal</option>
+                </select>
+              </label>
+            </div>
+            <div style="flex:1">
+              <label>Horário do evento
+                <input id="novoHorario" type="time" />
+              </label>
+            </div>
+          </div>
+          <label>Descrição / Observação
+            <textarea id="novaMensagem" placeholder="O que foi percebido aqui?"></textarea>
+          </label>
+          <div class="row">
+            <div style="flex:1">
+              <label>Hipótese
+                <textarea id="novaHipotese" placeholder="O que pode ter causado isso?"></textarea>
+              </label>
+            </div>
+            <div style="flex:1">
+              <label>Solução proposta
+                <textarea id="novaSolucao" placeholder="O que fazer para resolver?"></textarea>
+              </label>
+            </div>
+          </div>
+          <div class="row" style="margin-top:10px;">
+            <button class="btn" onclick="adicionarPonto()">Adicionar ponto</button>
+          </div>
+          <!-- <div style="margin-top:10px;">
                         <small>Dica: também é possível <b>clicar no mapa</b> para preencher lat/lng
                             automaticamente.</small>
                     </div>
-                    <pre id="saidaVariavel" aria-label="Último ponto adicionado (objeto)"></pre>
-                </fieldset>
-
-                <fieldset>
-                    <legend>Conectar pontos</legend>
-                    <label>Origem
-                        <select id="conOrigem"></select>
-                    </label>
-                    <label>Destino
-                        <select id="conDestino"></select>
-                    </label>
-                    <label>Observação da conexão (opcional)
-                        <input id="conObs" placeholder="Ex.: Caminho do trator até o galpão" />
-                    </label>
-                    <div class="row" style="margin-top:10px;">
-                        <button class="btn" onclick="conectarPontos()">Conectar</button>
-                    </div>
-                    <div style="margin-top:10px;">
-                        <div class="legend">
-                            <span class="pill"><span class="dot"
-                                    style="background-image:url('https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png')"></span>
-                                Alerta</span>
-                            <span class="pill"><span class="dot"
-                                    style="background-image:url('https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-orange.png')"></span>
-                                Atenção</span>
-                            <span class="pill"><span class="dot"
-                                    style="background-image:url('https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png')"></span>
-                                Normal</span>
-                        </div>
-                    </div>
-                </fieldset>
-
-                <fieldset>
-                    <legend>Filtros</legend>
-                    <div class="filters">
-                        <label class="pill"><input type="checkbox" id="fAlerta" checked onchange="aplicarFiltros()" />
-                            Mostrar ALERTA</label>
-                        <label class="pill"><input type="checkbox" id="fAtencao" checked onchange="aplicarFiltros()" />
-                            Mostrar ATENÇÃO</label>
-                        <label class="pill"><input type="checkbox" id="fNormal" checked onchange="aplicarFiltros()" />
-                            Mostrar NORMAL</label>
-                    </div>
-                </fieldset>
-            </div>
-        </section>
-
-        <div id="map"></div>
-    </section>
-
-    <!-- TELA 2: COORDENADAS -->
-    <section class="wrap screen" id="coordenadas">
-        <fieldset>
-            <legend>Coordenadas dos pontos</legend>
-            <div class="row" style="margin-bottom:8px;">
-                <button class="btn" onclick="listarCoordenadas()">Atualizar lista</button>
-            </div>
-            <pre id="listaCoords"
-                style="white-space:pre; background:#111; color:#c8e6ff; padding:10px; border-radius:6px; overflow:auto; max-height:200px;">(sem dados ainda)</pre>
+                    <pre id="saidaVariavel" aria-label="Último ponto adicionado (objeto)"></pre> -->
         </fieldset>
-    </section>
 
-    <!-- TELA 3: TECNOLOGIAS -->
-    <section class="wrap screen" id="tech">
         <fieldset>
-            <legend>Tecnologias para resolver o mistério</legend>
-            <ul style="margin:0; padding-left:18px; line-height:1.6;">
-                <li><b>Monitoramento e Sensoriamento</b>
-                    <ul>
-                        <li>Sensores IoT (temperatura, umidade, nível d'água) com alertas automáticos.</li>
-                        <li>CFTV com IA (detecção de movimento/anomalias em tempo real).</li>
-                        <li>Drones para inspeção de áreas e painéis solares.</li>
-                        <li>Monitoramento fotovoltaico (telemetria e limpeza de painéis).</li>
-                        <li>Análise de imagens de satélite para monitorar lavouras e áreas de pasto.</li>
-                    </ul>
-                </li>
-                <li><b>Automação e Operações</b>
-                    <ul>
-                        <li>Automação de irrigação baseada em solo e clima (válvulas e atuadores).</li>
-                        <li>Robôs agrícolas para plantio, colheita e monitoramento autônomo.</li>
-                        <li>Rastreamento GPS de tratores e frotas; calibração e geofencing.</li>
-                    </ul>
-                </li>
-                <li><b>Gestão e Dados</b>
-                    <ul>
-                        <li>Dashboards (BI) integrando dados da fazenda para decisão.</li>
-                        <li>Aplicativos móveis para gestão da fazenda e comunicação em tempo real.</li>
-                        <li>Sistemas de previsão climática integrados a modelos meteorológicos.</li>
-                        <li>Assistentes virtuais com IA para suporte a decisões rápidas no campo.</li>
-                    </ul>
-                </li>
-                <li><b>Segurança e Rastreabilidade</b>
-                    <ul>
-                        <li>RFID e balanças inteligentes para inventário e manejo de animais.</li>
-                        <li>Blockchain para rastreabilidade de insumos e produtos da fazenda.</li>
-                        <li>Protocolos de segurança (autenticação, logs, auditoria).</li>
-                    </ul>
-                </li>
-            </ul>
+          <legend>Conectar pontos</legend>
+          <label>Origem
+            <select id="conOrigem"></select>
+          </label>
+          <label>Destino
+            <select id="conDestino"></select>
+          </label>
+          <label>Observação da conexão (opcional)
+            <input id="conObs" placeholder="Ex.: Caminho do trator até o galpão" />
+          </label>
+          <div class="row" style="margin-top:10px;">
+            <button class="btn" onclick="conectarPontos()">Conectar</button>
+          </div>
+          <div style="margin-top:10px;">
+            <div class="legend">
+              <span class="pill"><span class="dot"
+                  style="background-image:url('https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png')"></span>
+                Alerta</span>
+              <span class="pill"><span class="dot"
+                  style="background-image:url('https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-orange.png')"></span>
+                Atenção</span>
+              <span class="pill"><span class="dot"
+                  style="background-image:url('https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png')"></span>
+                Normal</span>
+            </div>
+          </div>
         </fieldset>
-    </section>
 
-    <!-- TELA 4: RELATÓRIO -->
-    <section class="wrap screen" id="relatorioTela">
         <fieldset>
-            <legend>Relatório das soluções propostas</legend>
-            <div class="row" style="margin-bottom:8px;">
-                <button class="btn" onclick="gerarRelatorio()">Gerar relatório</button>
-            </div>
-            <div style="overflow:auto;">
-                <table style="width:100%; border-collapse:collapse;">
-                    <thead>
-                        <tr>
-                            <th style="border:1px solid #ddd; padding:6px;">ID</th>
-                            <th style="border:1px solid #ddd; padding:6px;">Ponto</th>
-                            <th style="border:1px solid #ddd; padding:6px;">Categoria</th>
-                            <th style="border:1px solid #ddd; padding:6px;">Horário</th>
-                            <th style="border:1px solid #ddd; padding:6px;">Descrição</th>
-                            <th style="border:1px solid #ddd; padding:6px;">Hipótese</th>
-                            <th style="border:1px solid #ddd; padding:6px;">Solução</th>
-                            <th style="border:1px solid #ddd; padding:6px;">Lat</th>
-                            <th style="border:1px solid #ddd; padding:6px;">Lng</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbodyRel"></tbody>
-                </table>
-            </div>
+          <legend>Filtros</legend>
+          <div class="filters">
+            <label class="pill"><input type="checkbox" id="fAlerta" checked onchange="aplicarFiltros()" />
+              Mostrar ALERTA</label>
+            <label class="pill"><input type="checkbox" id="fAtencao" checked onchange="aplicarFiltros()" />
+              Mostrar ATENÇÃO</label>
+            <label class="pill"><input type="checkbox" id="fNormal" checked onchange="aplicarFiltros()" />
+              Mostrar NORMAL</label>
+          </div>
         </fieldset>
+      </div>
     </section>
 
-    <script>
-        // ====== MAPA BASE ======
-        const map = L.map('map').setView([-27.0, -51.0], 13);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
+    <div id="map"></div>
+  </section>
 
-        // ====== ICONES POR CATEGORIA ======
-        const iconBase = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/';
-        const shadow = 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png';
-        const icons = {
-            alerta: new L.Icon({ iconUrl: iconBase + 'marker-icon-red.png', shadowUrl: shadow, iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] }),
-            atencao: new L.Icon({ iconUrl: iconBase + 'marker-icon-orange.png', shadowUrl: shadow, iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] }),
-            normal: new L.Icon({ iconUrl: iconBase + 'marker-icon-green.png', shadowUrl: shadow, iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] })
-        };
+  <!-- TELA 2: COORDENADAS -->
+  <section class="wrap screen" id="coordenadas">
+    <fieldset>
+      <legend>Coordenadas dos pontos</legend>
+      <div class="row" style="margin-bottom:8px;">
+        <button class="btn" onclick="listarCoordenadas()">Atualizar lista</button>
+      </div>
+      <pre id="listaCoords"
+        style="white-space:pre; background:#111; color:#c8e6ff; padding:10px; border-radius:6px; overflow:auto; max-height:200px;">(sem dados ainda)</pre>
+    </fieldset>
+  </section>
 
-        // ====== LIMITE DA FAZENDA ======
-        const limiteFazenda = L.polygon([
-            [-27.008, -51.008],
-            [-27.008, -50.998],
-            [-26.992, -50.998],
-            [-26.992, -51.008]
-        ], { color: 'green', fillColor: '#c1f0c1', fillOpacity: 0.2 }).addTo(map);
-        limiteFazenda.bindPopup('Limite da Fazenda Monte Verde');
+  <!-- TELA 3: TECNOLOGIAS -->
+  <section class="wrap screen" id="tech">
+    <fieldset>
+      <legend>Tecnologias para resolver o mistério</legend>
+      <ul style="margin:0; padding-left:18px; line-height:1.6;">
+        <li><b>Monitoramento e Sensoriamento</b>
+          <ul>
+            <li>Sensores IoT (temperatura, umidade, nível d'água) com alertas automáticos.</li>
+            <li>CFTV com IA (detecção de movimento/anomalias em tempo real).</li>
+            <li>Drones para inspeção de áreas e painéis solares.</li>
+            <li>Monitoramento fotovoltaico (telemetria e limpeza de painéis).</li>
+            <li>Análise de imagens de satélite para monitorar lavouras e áreas de pasto.</li>
+          </ul>
+        </li>
+        <li><b>Automação e Operações</b>
+          <ul>
+            <li>Automação de irrigação baseada em solo e clima (válvulas e atuadores).</li>
+            <li>Robôs agrícolas para plantio, colheita e monitoramento autônomo.</li>
+            <li>Rastreamento GPS de tratores e frotas; calibração e geofencing.</li>
+          </ul>
+        </li>
+        <li><b>Gestão e Dados</b>
+          <ul>
+            <li>Dashboards (BI) integrando dados da fazenda para decisão.</li>
+            <li>Aplicativos móveis para gestão da fazenda e comunicação em tempo real.</li>
+            <li>Sistemas de previsão climática integrados a modelos meteorológicos.</li>
+            <li>Assistentes virtuais com IA para suporte a decisões rápidas no campo.</li>
+          </ul>
+        </li>
+        <li><b>Segurança e Rastreabilidade</b>
+          <ul>
+            <li>RFID e balanças inteligentes para inventário e manejo de animais.</li>
+            <li>Blockchain para rastreabilidade de insumos e produtos da fazenda.</li>
+            <li>Protocolos de segurança (autenticação, logs, auditoria).</li>
+          </ul>
+        </li>
+      </ul>
+    </fieldset>
+  </section>
 
-        // preencher lat/lng ao clicar no mapa
-        map.on('click', (e) => {
-            document.getElementById('novaLat').value = e.latlng.lat.toFixed(6);
-            document.getElementById('novaLng').value = e.latlng.lng.toFixed(6);
-        });
+  <!-- TELA 4: RELATÓRIO -->
+  <section class="wrap screen" id="relatorioTela">
+    <fieldset>
+      <legend>Relatório das soluções propostas</legend>
+      <div class="row" style="margin-bottom:8px;">
+        <button class="btn" onclick="gerarRelatorio()">Gerar relatório</button>
+      </div>
+      <div style="overflow:auto;">
+        <table style="width:100%; border-collapse:collapse;">
+          <thead>
+            <tr>
+              <th style="border:1px solid #ddd; padding:6px;">ID</th>
+              <th style="border:1px solid #ddd; padding:6px;">Ponto</th>
+              <th style="border:1px solid #ddd; padding:6px;">Categoria</th>
+              <th style="border:1px solid #ddd; padding:6px;">Horário</th>
+              <th style="border:1px solid #ddd; padding:6px;">Descrição</th>
+              <th style="border:1px solid #ddd; padding:6px;">Hipótese</th>
+              <th style="border:1px solid #ddd; padding:6px;">Solução</th>
+              <th style="border:1px solid #ddd; padding:6px;">Lat</th>
+              <th style="border:1px solid #ddd; padding:6px;">Lng</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyRel"></tbody>
+        </table>
+      </div>
+    </fieldset>
+  </section>
 
-        // ====== PONTOS INICIAIS ======
-        const pontosIniciais = [
-            { nome: 'Sensor de Temperatura - Estufa', lat: -27.001, lng: -51.002, mensagem: 'Alerta! Temperatura acima de 38ºC.' },
-            { nome: 'Celeiro Principal', lat: -27.003, lng: -51.005, mensagem: 'Câmera offline desde 03h.' },
-            { nome: 'Galpão de Racoes', lat: -27.002, lng: -51.007, mensagem: 'Tudo normal.' },
-            { nome: 'Área dos Animais', lat: -27.004, lng: -51.003, mensagem: 'Animal com comportamento estranho.' },
-            { nome: 'Sensor de Umidade', lat: -27.005, lng: -51.006, mensagem: 'Falha no envio de dados.' },
-            { nome: 'Trator Inteligente', lat: -27.006, lng: -51.004, mensagem: 'GPS descalibrado. Revisão necessária.' },
-            { nome: 'Estufa 2', lat: -27.007, lng: -51.002, mensagem: 'Ventoinha desligada manualmente.' },
-            { nome: 'Barracão de Manutenção', lat: -27.003, lng: -51.001, mensagem: 'Funcionário relatou movimentação suspeita.' },
-            { nome: 'Sistema Solar', lat: -27.001, lng: -51.004, mensagem: 'Energia reduzida. Painel sujo?' },
-            { nome: 'Caixa d\'água', lat: -27.002, lng: -51.006, mensagem: 'Nível abaixo do esperado.' },
-            { nome: 'Depósito de Ferramentas', lat: -27.008, lng: -51.004, mensagem: 'Inventário de ferramentas incompleto.' },
-            { nome: 'Estacionamento de Veículos', lat: -27.008, lng: -51.006, mensagem: 'Caminhonete fora da posição habitual.' }
-        ];
+  <script>
+    // ====== MAPA BASE ======
+    const map = L.map('map').setView([-27.0, -51.0], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
 
-        // ====== CLASSIFICAÇÃO AUTOMÁTICA ======
-        function classificarCategoria(msg) {
-            const t = (msg || '').toLowerCase();
-            if (t.includes('alerta') || t.includes('acima') || t.includes('falha') || t.includes('offline')) return 'alerta';
-            if (t.includes('normal')) return 'normal';
-            return 'atencao';
-        }
+    // ====== ICONES POR CATEGORIA ======
+    const iconBase = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/';
+    const shadow = 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png';
+    const icons = {
+      alerta: new L.Icon({ iconUrl: iconBase + 'marker-icon-red.png', shadowUrl: shadow, iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] }),
+      atencao: new L.Icon({ iconUrl: iconBase + 'marker-icon-orange.png', shadowUrl: shadow, iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] }),
+      normal: new L.Icon({ iconUrl: iconBase + 'marker-icon-green.png', shadowUrl: shadow, iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] })
+    };
 
-        // ====== ESTADO ======
-        let nextId = 1;
-        const marcadores = new Map(); // id -> { marker, data }
-        const conexoes = []; // {origId, destId, polyline, obs}
+    // ====== LIMITE DA FAZENDA ======
+    const limiteFazenda = L.polygon([
+      [-27.008, -51.008],
+      [-27.008, -50.998],
+      [-26.992, -50.998],
+      [-26.992, -51.008]
+    ], { color: 'green', fillColor: '#c1f0c1', fillOpacity: 0.2 }).addTo(map);
+    limiteFazenda.bindPopup('Limite da Fazenda Monte Verde');
 
-        // ====== HELPERS ======
-        function popupHTML(d) {
-            const h = d.horario ? `<div><b>Horário:</b> ${d.horario}</div>` : '';
-            const hip = d.hipotese ? `<div><b>Hipótese:</b> ${escapeHTML(d.hipotese)}</div>` : '';
-            const sol = d.solucao ? `<div><b>Solução:</b> ${escapeHTML(d.solucao)}</div>` : '';
-            return `
+    // preencher lat/lng ao clicar no mapa
+    map.on('click', (e) => {
+      document.getElementById('novaLat').value = e.latlng.lat.toFixed(6);
+      document.getElementById('novaLng').value = e.latlng.lng.toFixed(6);
+    });
+
+    // ====== PONTOS INICIAIS ======
+    const pontosIniciais = [
+      { nome: 'Sensor de Temperatura - Estufa', lat: -27.001, lng: -51.002, mensagem: 'Alerta! Temperatura acima de 38ºC.' },
+      { nome: 'Celeiro Principal', lat: -27.003, lng: -51.005, mensagem: 'Câmera offline desde 03h.' },
+      { nome: 'Galpão de Racoes', lat: -27.002, lng: -51.007, mensagem: 'Tudo normal.' },
+      { nome: 'Área dos Animais', lat: -27.004, lng: -51.003, mensagem: 'Animal com comportamento estranho.' },
+      { nome: 'Sensor de Umidade', lat: -27.005, lng: -51.006, mensagem: 'Falha no envio de dados.' },
+      { nome: 'Trator Inteligente', lat: -27.006, lng: -51.004, mensagem: 'GPS descalibrado. Revisão necessária.' },
+      { nome: 'Estufa 2', lat: -27.007, lng: -51.002, mensagem: 'Ventoinha desligada manualmente.' },
+      { nome: 'Barracão de Manutenção', lat: -27.003, lng: -51.001, mensagem: 'Funcionário relatou movimentação suspeita.' },
+      { nome: 'Sistema Solar', lat: -27.001, lng: -51.004, mensagem: 'Energia reduzida. Painel sujo?' },
+      { nome: 'Caixa d\'água', lat: -27.002, lng: -51.006, mensagem: 'Nível abaixo do esperado.' },
+      { nome: 'Depósito de Ferramentas', lat: -27.008, lng: -51.004, mensagem: 'Inventário de ferramentas incompleto.' },
+      { nome: 'Estacionamento de Veículos', lat: -27.008, lng: -51.006, mensagem: 'Caminhonete fora da posição habitual.' }
+    ];
+
+    // ====== CLASSIFICAÇÃO AUTOMÁTICA ======
+    function classificarCategoria(msg) {
+      const t = (msg || '').toLowerCase();
+      if (t.includes('alerta') || t.includes('acima') || t.includes('falha') || t.includes('offline')) return 'alerta';
+      if (t.includes('normal')) return 'normal';
+      return 'atencao';
+    }
+
+    // ====== ESTADO ======
+    let nextId = 1;
+    const marcadores = new Map(); // id -> { marker, data }
+    const conexoes = []; // {origId, destId, polyline, obs}
+
+    // ====== HELPERS ======
+    function popupHTML(d) {
+      const h = d.horario ? `<div><b>Horário:</b> ${d.horario}</div>` : '';
+      const hip = d.hipotese ? `<div><b>Hipótese:</b> ${escapeHTML(d.hipotese)}</div>` : '';
+      const sol = d.solucao ? `<div><b>Solução:</b> ${escapeHTML(d.solucao)}</div>` : '';
+      return `
         <div style="min-width:220px">
           <div><b>${escapeHTML(d.nome)}</b></div>
           <div>${escapeHTML(d.mensagem)}</div>
@@ -441,121 +441,121 @@
           ${sol}
           <div style="margin-top:6px; font-size:12px; color:#666;">Categoria: ${d.categoria.toUpperCase()}</div>
         </div>`;
-        }
-        function escapeHTML(s) { return String(s || '').replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#039;" }[c])); }
+    }
+    function escapeHTML(s) { return String(s || '').replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#039;" }[c])); }
 
-        function addMarker(d) {
-            const id = nextId++;
-            const m = L.marker([d.lat, d.lng], { icon: icons[d.categoria] || icons.atencao }).addTo(map).bindPopup(popupHTML(d));
-            marcadores.set(id, { marker: m, data: { id, ...d } });
-            atualizarCombosConexao();
-            return id;
-        }
+    function addMarker(d) {
+      const id = nextId++;
+      const m = L.marker([d.lat, d.lng], { icon: icons[d.categoria] || icons.atencao }).addTo(map).bindPopup(popupHTML(d));
+      marcadores.set(id, { marker: m, data: { id, ...d } });
+      atualizarCombosConexao();
+      return id;
+    }
 
-        function atualizarCombosConexao() {
-            const opts = [...marcadores.values()].map(({ data }) => `<option value="${data.id}">${escapeHTML(data.nome)}</option>`).join('');
-            document.getElementById('conOrigem').innerHTML = `<option value="">Selecione…</option>` + opts;
-            document.getElementById('conDestino').innerHTML = `<option value="">Selecione…</option>` + opts;
-        }
+    function atualizarCombosConexao() {
+      const opts = [...marcadores.values()].map(({ data }) => `<option value="${data.id}">${escapeHTML(data.nome)}</option>`).join('');
+      document.getElementById('conOrigem').innerHTML = `<option value="">Selecione…</option>` + opts;
+      document.getElementById('conDestino').innerHTML = `<option value="">Selecione…</option>` + opts;
+    }
 
-        function aplicarFiltros() {
-            const showA = document.getElementById('fAlerta').checked;
-            const showT = document.getElementById('fAtencao').checked;
-            const showN = document.getElementById('fNormal').checked;
-            marcadores.forEach(({ marker, data }) => {
-                const vis = (data.categoria === 'alerta' && showA) || (data.categoria === 'atencao' && showT) || (data.categoria === 'normal' && showN);
-                if (vis) { marker.addTo(map); } else { map.removeLayer(marker); }
-            });
-            // também atualiza visibilidade das conexões (só mostra se ambos pontos estão visíveis)
-            conexoes.forEach(c => {
-                const o = marcadores.get(c.origId); const d = marcadores.get(c.destId);
-                const ov = o && map.hasLayer(o.marker); const dv = d && map.hasLayer(d.marker);
-                if (ov && dv) { c.polyline.addTo(map); } else { map.removeLayer(c.polyline); }
-            });
-        }
+    function aplicarFiltros() {
+      const showA = document.getElementById('fAlerta').checked;
+      const showT = document.getElementById('fAtencao').checked;
+      const showN = document.getElementById('fNormal').checked;
+      marcadores.forEach(({ marker, data }) => {
+        const vis = (data.categoria === 'alerta' && showA) || (data.categoria === 'atencao' && showT) || (data.categoria === 'normal' && showN);
+        if (vis) { marker.addTo(map); } else { map.removeLayer(marker); }
+      });
+      // também atualiza visibilidade das conexões (só mostra se ambos pontos estão visíveis)
+      conexoes.forEach(c => {
+        const o = marcadores.get(c.origId); const d = marcadores.get(c.destId);
+        const ov = o && map.hasLayer(o.marker); const dv = d && map.hasLayer(d.marker);
+        if (ov && dv) { c.polyline.addTo(map); } else { map.removeLayer(c.polyline); }
+      });
+    }
 
-        // ====== ADICIONAR PONTO (FORM) ======
-        function adicionarPonto() {
-            const nome = document.getElementById('novoNome').value.trim();
-            const lat = parseFloat(document.getElementById('novaLat').value);
-            const lng = parseFloat(document.getElementById('novaLng').value);
-            const categoria = document.getElementById('novaCategoria').value;
-            const horario = document.getElementById('novoHorario').value;
-            const mensagem = document.getElementById('novaMensagem').value.trim();
-            const hipotese = document.getElementById('novaHipotese').value.trim();
-            const solucao = document.getElementById('novaSolucao').value.trim();
+    // ====== ADICIONAR PONTO (FORM) ======
+    function adicionarPonto() {
+      const nome = document.getElementById('novoNome').value.trim();
+      const lat = parseFloat(document.getElementById('novaLat').value);
+      const lng = parseFloat(document.getElementById('novaLng').value);
+      const categoria = document.getElementById('novaCategoria').value;
+      const horario = document.getElementById('novoHorario').value;
+      const mensagem = document.getElementById('novaMensagem').value.trim();
+      const hipotese = document.getElementById('novaHipotese').value.trim();
+      const solucao = document.getElementById('novaSolucao').value.trim();
 
-            if (!nome || isNaN(lat) || isNaN(lng) || !mensagem) { alert('Preencha nome, latitude, longitude e descrição.'); return; }
-            const ponto = L.latLng(lat, lng);
-            if (!limiteFazenda.getBounds().contains(ponto)) { alert('Este ponto está fora dos limites da Fazenda Monte Verde.'); return; }
+      if (!nome || isNaN(lat) || isNaN(lng) || !mensagem) { alert('Preencha nome, latitude, longitude e descrição.'); return; }
+      const ponto = L.latLng(lat, lng);
+      if (!limiteFazenda.getBounds().contains(ponto)) { alert('Este ponto está fora dos limites da Fazenda Monte Verde.'); return; }
 
-            const data = { nome, lat, lng, categoria, horario, mensagem, hipotese, solucao };
-            const id = addMarker(data);
-            document.getElementById('saidaVariavel').textContent = JSON.stringify({ id, ...data }, null, 2);
-            aplicarFiltros();
-        }
-        window.adicionarPonto = adicionarPonto;
+      const data = { nome, lat, lng, categoria, horario, mensagem, hipotese, solucao };
+      const id = addMarker(data);
+      document.getElementById('saidaVariavel').textContent = JSON.stringify({ id, ...data }, null, 2);
+      aplicarFiltros();
+    }
+    window.adicionarPonto = adicionarPonto;
 
-        // ====== CONECTAR PONTOS ======
-        function conectarPontos() {
-            const o = parseInt(document.getElementById('conOrigem').value, 10);
-            const d = parseInt(document.getElementById('conDestino').value, 10);
-            const obs = document.getElementById('conObs').value.trim();
-            if (!o || !d || o === d) { alert('Escolha origem e destino (diferentes).'); return; }
-            const mo = marcadores.get(o); const md = marcadores.get(d);
-            if (!mo || !md) { alert('Pontos inválidos.'); return; }
-            const poly = L.polyline([mo.marker.getLatLng(), md.marker.getLatLng()], { color: '#444', weight: 3, opacity: 0.8 }).addTo(map);
-            if (obs) { poly.bindTooltip(obs, { permanent: false, direction: 'center' }); }
-            conexoes.push({ origId: o, destId: d, polyline: poly, obs });
-            aplicarFiltros();
-        }
-        window.conectarPontos = conectarPontos;
+    // ====== CONECTAR PONTOS ======
+    function conectarPontos() {
+      const o = parseInt(document.getElementById('conOrigem').value, 10);
+      const d = parseInt(document.getElementById('conDestino').value, 10);
+      const obs = document.getElementById('conObs').value.trim();
+      if (!o || !d || o === d) { alert('Escolha origem e destino (diferentes).'); return; }
+      const mo = marcadores.get(o); const md = marcadores.get(d);
+      if (!mo || !md) { alert('Pontos inválidos.'); return; }
+      const poly = L.polyline([mo.marker.getLatLng(), md.marker.getLatLng()], { color: '#444', weight: 3, opacity: 0.8 }).addTo(map);
+      if (obs) { poly.bindTooltip(obs, { permanent: false, direction: 'center' }); }
+      conexoes.push({ origId: o, destId: d, polyline: poly, obs });
+      aplicarFiltros();
+    }
+    window.conectarPontos = conectarPontos;
 
-        // ====== TELAS ======
-        function showScreen(id) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            const el = document.getElementById(id);
-            if (el) el.classList.add('active');
-            if (id === 'inicial') { setTimeout(() => map.invalidateSize(), 100); }
-            if (id === 'coordenadas') listarCoordenadas();
-            if (id === 'relatorioTela') gerarRelatorio();
-        }
+    // ====== TELAS ======
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const el = document.getElementById(id);
+      if (el) el.classList.add('active');
+      if (id === 'inicial') { setTimeout(() => map.invalidateSize(), 100); }
+      if (id === 'coordenadas') listarCoordenadas();
+      if (id === 'relatorioTela') gerarRelatorio();
+    }
 
-        // ====== COORDENADAS ======
-        function listarCoordenadas() {
-            const pre = document.getElementById('listaCoords');
-            if (!pre) return;
-            const header = 'id\tNome\tLatitude, Longitude';
-            const linhas = [];
-            marcadores.forEach(({ data }) => {
-                linhas.push(`${data.id}\t${data.nome}\t${Number(data.lat).toFixed(6)}, ${Number(data.lng).toFixed(6)}`);
-            });
-            pre.textContent = [header, ...linhas].join('\n');
-        }
+    // ====== COORDENADAS ======
+    function listarCoordenadas() {
+      const pre = document.getElementById('listaCoords');
+      if (!pre) return;
+      const header = 'id\tNome\tLatitude, Longitude';
+      const linhas = [];
+      marcadores.forEach(({ data }) => {
+        linhas.push(`${data.id}\t${data.nome}\t${Number(data.lat).toFixed(6)}, ${Number(data.lng).toFixed(6)}`);
+      });
+      pre.textContent = [header, ...linhas].join('\n');
+    }
 
-        // ====== RELATÓRIO ======
-        function gerarRelatorio() {
-            const tbody = document.getElementById('tbodyRel');
-            if (!tbody) return;
-            tbody.innerHTML = '';
-            marcadores.forEach(({ data }) => {
-                const tr = document.createElement('tr');
-                const cells = [data.id, data.nome, data.categoria, data.horario || '', data.mensagem || '', data.hipotese || '', data.solucao || '', Number(data.lat).toFixed(6), Number(data.lng).toFixed(6)];
-                cells.forEach(v => { const td = document.createElement('td'); td.textContent = String(v); td.style.border = '1px solid #ddd'; td.style.padding = '6px'; tr.appendChild(td); });
-                tbody.appendChild(tr);
-            });
-        }
+    // ====== RELATÓRIO ======
+    function gerarRelatorio() {
+      const tbody = document.getElementById('tbodyRel');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      marcadores.forEach(({ data }) => {
+        const tr = document.createElement('tr');
+        const cells = [data.id, data.nome, data.categoria, data.horario || '', data.mensagem || '', data.hipotese || '', data.solucao || '', Number(data.lat).toFixed(6), Number(data.lng).toFixed(6)];
+        cells.forEach(v => { const td = document.createElement('td'); td.textContent = String(v); td.style.border = '1px solid #ddd'; td.style.padding = '6px'; tr.appendChild(td); });
+        tbody.appendChild(tr);
+      });
+    }
 
-        // ====== CARREGA PONTOS INICIAIS ======
-        pontosIniciais.forEach(p => {
-            const categoria = classificarCategoria(p.mensagem);
-            addMarker({ ...p, categoria });
-        });
-        // aplica filtros uma vez (mantém todos visíveis pois checkboxes estão marcados)
-        aplicarFiltros();
-        // atualiza combos inicialmente
-        atualizarCombosConexao();
-    </script>
+    // ====== CARREGA PONTOS INICIAIS ======
+    pontosIniciais.forEach(p => {
+      const categoria = classificarCategoria(p.mensagem);
+      addMarker({ ...p, categoria });
+    });
+    // aplica filtros uma vez (mantém todos visíveis pois checkboxes estão marcados)
+    aplicarFiltros();
+    // atualiza combos inicialmente
+    atualizarCombosConexao();
+  </script>
 </body>
 
 </html>
